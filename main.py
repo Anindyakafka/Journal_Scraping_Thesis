@@ -1,14 +1,14 @@
-import requests 
+import requests
 from bs4 import BeautifulSoup
-import pandas as pd 
+import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 
 def scrape_scholar_articles(query, num_pages):
-    articles=[]
-    page = 0 
+    articles = []
+    page = 0
     while page < num_pages:
-        url = f"https://scholar.google.com/scholar?start={page*10}&q={query}&h1=en&as_sdt=0,5"
+        url = f"https://scholar.google.com/scholar?start={page*10}&q={query}&hl=en&as_sdt=0,5"
         response = requests.get(url)
         soup = BeautifulSoup(response.text, "html.parser")
         results = soup.find_all("div", class_="gs_ri")
@@ -40,12 +40,12 @@ def scrape_articles():
 
     folder_path = entry_folder.get()
     if folder_path:
-        filename = f"{folder_path}/scholar_articles.xsls"
+        filename = f"{folder_path}/scholar_articles.xlsx"
     else:
-        filename= "scholar_articles.xlsx"
+        filename = "scholar_articles.xlsx"
 
     save_to_excel(articles, filename)
-    label_status.config(text="Extraction complete")
+    label_status.config(text="Extraction complete. Data saved to scholar_articles.xlsx.")
 
 # Create the main window
 window = tk.Tk()
@@ -81,4 +81,4 @@ label_status = tk.Label(window, text="")
 label_status.pack()
 
 # Run the main window loop
-window.mainloop()   
+window.mainloop()
